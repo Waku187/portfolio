@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import BlurText from "@/components/BlurText";
 import RotatingText from "@/components/RotatingText";
@@ -10,8 +10,6 @@ import RotatingText from "@/components/RotatingText";
    OrbitalSystem – Central glowing orb + tech badges in orbit
 ──────────────────────────────────────────────────────────── */
 
-// Each orbit-arm pivot sits at the exact center (width/height=0).
-// Slowed down: Inner 24s, Outer 40s
 const INNER = [
   { label: "⚛️  React", delay: 0 },
   { label: "🟦  TypeScript", delay: -(24 / 3) },
@@ -26,11 +24,10 @@ const OUTER = [
 function OrbitalSystem() {
   return (
     <div
-      className="relative select-none scale-[0.55] sm:scale-80 lg:scale-100"
+      className="relative select-none lg:scale-100"
       style={{ width: 480, height: 480, flexShrink: 0 }}
       aria-hidden="true"
     >
-      {/* ── Subtle orbit track rings ── */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
         style={{
@@ -48,12 +45,10 @@ function OrbitalSystem() {
         }}
       />
 
-      {/* ── Central orb ── */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{ zIndex: 10 }}
       >
-        {/* Outer ambient glow */}
         <div
           className="absolute -inset-8 rounded-full blur-3xl opacity-60 pointer-events-none"
           style={{
@@ -61,7 +56,6 @@ function OrbitalSystem() {
               "radial-gradient(circle, rgba(124,58,237,0.55) 0%, rgba(6,182,212,0.15) 60%, transparent 80%)",
           }}
         />
-        {/* Spinning gradient border */}
         <div
           style={{
             width: 144,
@@ -73,7 +67,6 @@ function OrbitalSystem() {
             animation: "spin-orb 8s linear infinite",
           }}
         >
-          {/* Counter-rotate inner content so it stays upright */}
           <div
             style={{
               width: "100%",
@@ -86,7 +79,6 @@ function OrbitalSystem() {
               flexDirection: "column",
               gap: 2,
               animation: "spin-orb 8s linear infinite reverse",
-              /* pulsing glow on the inner orb */
               animationName: "spin-orb-counter, orb-glow",
               animationDuration: "8s, 3s",
               animationTimingFunction: "linear, ease-in-out",
@@ -122,7 +114,6 @@ function OrbitalSystem() {
         </div>
       </div>
 
-      {/* ── Inner orbit badges (CW, 24s, radius=155px) ── */}
       {INNER.map(({ label, delay }) => (
         <div
           key={label}
@@ -137,7 +128,6 @@ function OrbitalSystem() {
             zIndex: 20,
           }}
         >
-          {/* badge-inner-orbit translates out 155px and counter-rotates */}
           <div
             style={{
               animation: "badge-inner-orbit 24s linear infinite",
@@ -145,7 +135,6 @@ function OrbitalSystem() {
               position: "absolute",
             }}
           >
-            {/* vertical centering wrapper (separate from animated transform) */}
             <div style={{ transform: "translateY(-50%)" }}>
               <span
                 className="flex items-center whitespace-nowrap rounded-full text-xs font-semibold text-white"
@@ -164,7 +153,6 @@ function OrbitalSystem() {
         </div>
       ))}
 
-      {/* ── Outer orbit badges (CCW, 40s, radius=215px) ── */}
       {OUTER.map(({ label, delay }) => (
         <div
           key={label}
@@ -208,28 +196,85 @@ function OrbitalSystem() {
 }
 
 /* ───────────────────────────────────────────────────────────
-   HeroSection
+   Sub-components for cleaner HeroSection
 ──────────────────────────────────────────────────────────── */
-const socials = [
-  { icon: Github, label: "GitHub", href: "https://github.com" },
-  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
-  { icon: Mail, label: "Email", href: "mailto:hello@wakunguma.dev" },
-];
+
+function HeroCTAs() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.8 }}
+      className="flex flex-wrap gap-4 justify-center lg:justify-start items-center"
+    >
+      <button
+        onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
+        className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-sm transition-all duration-300 hover:scale-105"
+        style={{
+          background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
+          boxShadow: "0 0 28px rgba(124,58,237,0.45), 0 0 60px rgba(124,58,237,0.12)",
+        }}
+      >
+        View My Work
+        <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+      </button>
+
+      <button
+        onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
+        className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 glass"
+        style={{ color: "rgba(226,232,240,1)" }}
+      >
+        Get In Touch
+      </button>
+    </motion.div>
+  );
+}
+
+function HeroSocials() {
+  const socials = [
+    { icon: Github, label: "GitHub", href: "https://github.com/Waku187" },
+    { icon: Linkedin, label: "LinkedIn", href: "#" },
+    { icon: Mail, label: "Email", href: "mailto:homelanderthard@gmail.com" },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.2, duration: 1 }}
+      className="flex items-center gap-6"
+    >
+      {socials.map(({ icon: Icon, label, href }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-slate-500 hover:text-white transition-colors duration-300"
+          aria-label={label}
+        >
+          <Icon size={20} />
+        </a>
+      ))}
+    </motion.div>
+  );
+}
+
+/* ───────────────────────────────────────────────────────────
+   Main HeroSection Component
+──────────────────────────────────────────────────────────── */
 
 export default function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    containerRef.current.style.setProperty(
-      "--mx",
-      `${((e.clientX - rect.left) / rect.width) * 100}%`
-    );
-    containerRef.current.style.setProperty(
-      "--my",
-      `${((e.clientY - rect.top) / rect.height) * 100}%`
-    );
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const x = ((clientX - left) / width) * 100;
+    const y = ((clientY - top) / height) * 100;
+    containerRef.current.style.setProperty("--mx", `${x}%`);
+    containerRef.current.style.setProperty("--my", `${y}%`);
   };
 
   return (
@@ -241,40 +286,15 @@ export default function HeroSection() {
     >
       {/* ══ Background layer ══ */}
       <div
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-        aria-hidden="true"
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(1200px circle at var(--mx, 50%) var(--my, 50%), rgba(124,58,237,0.08) 0%, transparent 70%)",
+        }}
       >
-        <div className="noise" />
-        
-        {/* Violet blob — top-left */}
+        {/* Subtle spotlight that follows mouse */}
         <div
-          className="aurora-blob-1 absolute rounded-full"
-          style={{
-            top: "-15%",
-            left: "-10%",
-            width: "50%",
-            height: "50%",
-            background:
-              "radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(124,58,237,0) 70%)",
-            filter: "blur(60px)",
-          }}
-        />
-        {/* Cyan blob — bottom-right */}
-        <div
-          className="aurora-blob-2 absolute rounded-full"
-          style={{
-            bottom: "-10%",
-            right: "-5%",
-            width: "45%",
-            height: "45%",
-            background:
-              "radial-gradient(circle, rgba(6,182,212,0.18) 0%, rgba(6,182,212,0) 70%)",
-            filter: "blur(60px)",
-          }}
-        />
-        {/* Mouse-follow glow */}
-        <div
-          className="absolute inset-0"
+          className="absolute inset-0 opacity-40 lg:opacity-100"
           style={{
             background:
               "radial-gradient(800px circle at var(--mx, 50%) var(--my, 50%), rgba(124,58,237,0.07) 0%, transparent 60%)",
@@ -283,143 +303,83 @@ export default function HeroSection() {
       </div>
 
       {/* ══ Main content — Luxury Split ══ */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 items-center min-h-[100dvh] pt-28 lg:pt-0">
-
-        {/* ── LEFT: Signature & Headline ── */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1 pb-6 lg:pb-0 relative">
-          {/* Mobile-only ambient glow behind text */}
-          <div className="absolute inset-0 -z-10 lg:hidden bg-violet-600/5 blur-[80px] rounded-full pointer-events-none" />
-          
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <span 
-              className="text-[11px] uppercase tracking-[0.4em] text-violet-400 font-bold mb-2 block"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-[100dvh] flex flex-col lg:grid lg:grid-cols-2 items-center lg:justify-center justify-between pt-24 lg:pt-0">
+        
+        {/* ── LEFT COLUMN (Desktop) / TOP & BOTTOM (Mobile) ── */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1 relative lg:h-auto h-auto w-full">
+          {/* Zone 1: Name & Title */}
+          <div className="flex flex-col items-center lg:items-start w-full">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 lg:hidden bg-violet-600/5 blur-[80px] rounded-full pointer-events-none w-64 h-32" />
+            
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              Software Engineer
-            </span>
-            <h1 
-              className="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tighter text-white mb-4"
-              style={{ fontFamily: "var(--font-manrope)" }}
+              <span className="text-[11px] uppercase tracking-[0.4em] text-violet-400 font-bold mb-2 block">
+                Software Engineer
+              </span>
+              <h1 className="text-[2.6rem] sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tighter text-white mb-4">
+                WAKUNG&apos;UMA<br />
+                <span className="text-gradient">NYAMBE III</span>
+              </h1>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center gap-4 mb-6 h-10"
             >
-              WAKUNG'UMA<br />
-              <span className="text-gradient">NYAMBE III</span>
-            </h1>
-          </motion.div>
+              <div className="h-px w-8 bg-white/20" />
+              <div className="text-lg sm:text-xl text-slate-400 font-medium">
+                I build <RotatingText
+                  texts={["Modern Web Apps", "Mobile Apps", "Scalable Systems", "Seamless UX", "Robust APIs", "Premium Designs"]}
+                  splitBy="words"
+                  auto={true}
+                  rotationInterval={3000}
+                  mainClassName="inline-flex text-white font-bold"
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                />
+              </div>
+            </motion.div>
 
-          {/* Dynamic Service Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex items-center gap-4 mb-10 h-10"
-          >
-            <div className="h-px w-8 bg-white/20" />
-            <div className="text-lg sm:text-xl text-slate-400 font-medium">
-              I build <RotatingText
-                texts={[
-                  "Modern Web Apps",
-                  "Mobile Apps",
-                  "Scalable Systems",
-                  "Seamless UX",
-                  "Robust APIs",
-                  "Premium Designs"
-                ]}
-                splitBy="words"
-                auto={true}
-                rotationInterval={3000}
-                mainClassName="inline-flex text-white font-bold"
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              />
-            </div>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-slate-400 text-base sm:text-lg max-w-lg leading-relaxed mb-12 font-medium"
-          >
-            Turning visionary ideas into world-class digital realities. 
-            Focused on performance, scalability, and exceptional experiences across web and mobile.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap gap-4 justify-center lg:justify-start items-center"
-          >
-            <button
-              onClick={() =>
-                document
-                  .querySelector("#projects")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-sm transition-all duration-300 hover:scale-105"
-              style={{
-                background:
-                  "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
-                boxShadow:
-                  "0 0 28px rgba(124,58,237,0.45), 0 0 60px rgba(124,58,237,0.12)",
-              }}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-slate-400 text-sm sm:text-lg max-w-lg leading-relaxed mb-0 lg:mb-12 font-medium"
             >
-              View My Work
-              <ExternalLink
-                size={14}
-                className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-              />
-            </button>
+              Turning visionary ideas into world-class digital realities. 
+              Focused on performance, scalability, and exceptional experiences across web and mobile.
+            </motion.p>
+          </div>
 
-            <button
-              onClick={() =>
-                document
-                  .querySelector("#contact")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 glass"
-              style={{ color: "rgba(226,232,240,1)" }}
-            >
-              Get In Touch
-            </button>
-          </motion.div>
-
-          {/* Socials - Glassy */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 1 }}
-            className="mt-14 flex items-center gap-6"
-          >
-            {socials.map(({ icon: Icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                className="text-slate-500 hover:text-white transition-colors duration-300"
-                aria-label={label}
-              >
-                <Icon size={20} />
-              </a>
-            ))}
-          </motion.div>
+          {/* Zone 3 Desktop: Buttons & Socials (Standard Column Flow) */}
+          <div className="hidden lg:flex flex-col items-start w-full gap-8 mt-12">
+            <HeroCTAs />
+            <HeroSocials />
+          </div>
         </div>
 
-        {/* ── RIGHT: Scientific Orbit ── */}
+        {/* ── CENTRAL ZONE 2 (Mobile: Flow, Desktop: Right Column) ── */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="flex items-center justify-center order-2 lg:order-2 pt-4 lg:pt-0"
+          className="flex items-center justify-center order-2 lg:order-2 relative z-10 w-full py-2 lg:py-0"
         >
-          <div className="relative group">
-            {/* Ambient Background Glow for the Orbit */}
-            <div className="absolute -inset-20 bg-violet-600/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-violet-600/15 transition-colors duration-700" />
+          <div className="relative group scale-[0.65] sm:scale-85 lg:scale-100 lg:h-auto h-[320px] flex items-center justify-center">
+            <div className="absolute -inset-10 lg:-inset-20 bg-violet-600/10 rounded-full blur-[60px] lg:blur-[100px] pointer-events-none group-hover:bg-violet-600/15 transition-colors duration-700" />
             <OrbitalSystem />
           </div>
         </motion.div>
+
+        {/* ── ZONE 3 Mobile: Buttons & Socials (Pinned to bottom of viewport) ── */}
+        <div className="flex lg:hidden flex-col items-center w-full gap-6 order-3 pb-10 relative z-20 h-auto">
+          <HeroCTAs />
+          <HeroSocials />
+        </div>
       </div>
 
       {/* ── Scroll indicator ── */}
@@ -427,24 +387,14 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 0.6 }}
-        onClick={() =>
-          document
-            .querySelector("#about")
-            ?.scrollIntoView({ behavior: "smooth" })
-        }
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-colors duration-200"
+        onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 transition-colors duration-200"
         style={{ color: "rgba(71,85,105,1)" }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.color = "rgba(148,163,184,1)")
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.color = "rgba(71,85,105,1)")
-        }
+        onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(148,163,184,1)")}
+        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(71,85,105,1)")}
         aria-label="Scroll down"
       >
-        <span className="text-[9px] tracking-[0.25em] uppercase font-medium">
-          Scroll
-        </span>
+        <span className="text-[9px] tracking-[0.25em] uppercase font-medium">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
