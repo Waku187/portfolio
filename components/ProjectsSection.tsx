@@ -43,7 +43,7 @@ function SpotlightCard({
 }) {
   const spotRef = useRef<HTMLDivElement>(null);
   const revealRef = useRef(null);
-  const isInView = useInView(revealRef, { once: true, margin: "-60px" });
+  const isInView = useInView(revealRef, { once: true, margin: "-40px" });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!spotRef.current) return;
@@ -146,7 +146,7 @@ function SpotlightCard({
 
 export default function ProjectsSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
     <section
