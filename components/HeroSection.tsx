@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import BlurText from "@/components/BlurText";
 import RotatingText from "@/components/RotatingText";
@@ -266,6 +266,14 @@ function HeroSocials() {
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.7], [0, -100]);
+  const scale = useTransform(scrollYProgress, [0, 0.7], [1, 0.95]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -303,7 +311,10 @@ export default function HeroSection() {
       </div>
 
       {/* ══ Main content — Luxury Split ══ */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 min-h-[100dvh] flex flex-col lg:grid lg:grid-cols-2 items-center lg:justify-center justify-between pt-16 lg:pt-0">
+      <motion.div 
+        style={{ opacity, y, scale }}
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 min-h-[100dvh] flex flex-col lg:grid lg:grid-cols-2 items-center lg:justify-center justify-center gap-12 lg:gap-0 pt-16 lg:pt-0"
+      >
         
         {/* ── LEFT COLUMN (Desktop) / TOP & BOTTOM (Mobile) ── */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1 relative lg:h-auto h-auto w-full">
@@ -375,12 +386,12 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* ── ZONE 3 Mobile: Buttons & Socials (Pinned to bottom of viewport) ── */}
-        <div className="flex lg:hidden flex-col items-center w-full gap-6 order-3 pb-6 relative z-20 h-auto">
+        {/* ── ZONE 3 Mobile: Buttons & Socials (Removed as per user request, kept empty for spacing or hidden) ── */}
+        <div className="hidden lg:hidden flex-col items-center w-full gap-6 order-3 pb-6 relative z-20 h-auto">
           <HeroCTAs />
           <HeroSocials />
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Scroll indicator ── */}
       <motion.button
@@ -388,7 +399,7 @@ export default function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 0.6 }}
         onClick={() => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" })}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 transition-colors duration-200"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-colors duration-200"
         style={{ color: "rgba(71,85,105,1)" }}
         onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(148,163,184,1)")}
         onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(71,85,105,1)")}

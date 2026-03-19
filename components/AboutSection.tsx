@@ -39,9 +39,9 @@ export default function AboutSection() {
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center gap-4 mb-10 lg:mb-16"
         >
           <span
@@ -65,9 +65,9 @@ export default function AboutSection() {
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* ── Photo ── */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.25 }}
+            initial={{ opacity: 0, x: 40, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
             className="flex justify-center order-1 md:order-2"
           >
             <div className="relative">
