@@ -1,16 +1,4 @@
-# Wakung'uma Nyambe III — Full Stack Portfolio
-
-A premium, modern portfolio showcasing the professional identity and technical expertise of **Wakung'uma Nyambe III**. Built with cutting-edge web technologies, featuring smooth animations, a vibrant "Deep Midnight Purple" theme, and an optimized mobile experience.
-
----
-
-## 🚀 Key Features
-
-- **Luxury Aesthetics**: Vibrant "Deep Midnight" theme with fixed radial gradients and glassmorphism.
-- **Micro-Animations**: Smooth interactions powered by Framer Motion and custom CSS animations.
-- **Mobile-First Design**: Optimized layout and scaling for a premium experience on any device.
-- **Next.js 16 Performance**: Leveraging the latest features of React 19 and Next.js for speed and SEO.
-- **Tailwind CSS 4**: Utilizing the newest styling engine for modern, efficient design systems.
+# Wakung'uma Nyambe III — Portfolio
 
 ---
 
@@ -40,7 +28,7 @@ Clone the repository and install the dependencies:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Waku187/portfolio.git
 
 # Navigate to the project directory
 cd portfolio
