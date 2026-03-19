@@ -26,7 +26,7 @@ const OUTER = [
 function OrbitalSystem() {
   return (
     <div
-      className="relative select-none scale-[0.65] sm:scale-90 lg:scale-100"
+      className="relative select-none scale-[0.55] sm:scale-80 lg:scale-100"
       style={{ width: 480, height: 480, flexShrink: 0 }}
       aria-hidden="true"
     >
@@ -286,7 +286,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 items-center min-h-[100dvh] pt-28 lg:pt-0">
 
         {/* ── LEFT: Signature & Headline ── */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1 pb-10 lg:pb-0 relative">
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1 pb-6 lg:pb-0 relative">
           {/* Mobile-only ambient glow behind text */}
           <div className="absolute inset-0 -z-10 lg:hidden bg-violet-600/5 blur-[80px] rounded-full pointer-events-none" />
           
@@ -412,7 +412,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="flex items-center justify-center order-2 lg:order-2 pt-10 lg:pt-0"
+          className="flex items-center justify-center order-2 lg:order-2 pt-4 lg:pt-0"
         >
           <div className="relative group">
             {/* Ambient Background Glow for the Orbit */}

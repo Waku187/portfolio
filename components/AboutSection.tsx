@@ -42,7 +42,7 @@ export default function AboutSection() {
           initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-16"
+          className="flex items-center gap-4 mb-10 lg:mb-16"
         >
           <span
             className="font-mono text-sm"
@@ -62,13 +62,64 @@ export default function AboutSection() {
           />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-16 items-center">
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* ── Photo ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="flex justify-center order-1 md:order-2"
+          >
+            <div className="relative">
+              {/* Subtle ambient glow */}
+              <div
+                className="absolute -inset-6 rounded-3xl opacity-25 pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                  filter: "blur(30px)",
+                }}
+              />
+              {/* ElectricBorder wraps the photo */}
+              <ElectricBorder
+                color="#7c3aed"
+                speed={0.9}
+                chaos={0.1}
+                borderRadius={16}
+                className="float"
+              >
+                <div className="relative w-64 h-72 sm:w-80 sm:h-96 rounded-2xl overflow-hidden">
+                  <Image
+                    src="/wall1.png"
+                    alt="Wakung'uma Nyambe III"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(3,0,20,0.55) 0%, transparent 60%)",
+                    }}
+                  />
+                </div>
+              </ElectricBorder>
+              {/* Floating label */}
+              <motion.div
+                className="float absolute -bottom-5 -right-5 glass rounded-xl px-4 py-2.5 text-sm font-semibold text-white border"
+                style={{ borderColor: "rgba(255,255,255,0.1)", zIndex: 10 }}
+              >
+                💻 Software Engineer
+              </motion.div>
+            </div>
+          </motion.div>
+
           {/* ── Text ── */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="space-y-5"
+            className="space-y-5 order-2 md:order-1"
           >
             <p
               className="text-lg leading-relaxed"
@@ -116,57 +167,6 @@ export default function AboutSection() {
                   </div>
                 </div>
               ))}
-            </div>
-          </motion.div>
-
-          {/* ── Photo ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="flex justify-center"
-          >
-            <div className="relative">
-              {/* Subtle ambient glow */}
-              <div
-                className="absolute -inset-6 rounded-3xl opacity-25 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                  filter: "blur(30px)",
-                }}
-              />
-              {/* ElectricBorder wraps the photo */}
-              <ElectricBorder
-                color="#7c3aed"
-                speed={0.9}
-                chaos={0.1}
-                borderRadius={16}
-                className="float"
-              >
-                <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-2xl overflow-hidden">
-                  <Image
-                    src="/wall1.png"
-                    alt="Wakung'uma Nyambe III"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(3,0,20,0.55) 0%, transparent 60%)",
-                    }}
-                  />
-                </div>
-              </ElectricBorder>
-              {/* Floating label */}
-              <motion.div
-                className="float absolute -bottom-5 -right-5 glass rounded-xl px-4 py-2.5 text-sm font-semibold text-white border"
-                style={{ borderColor: "rgba(255,255,255,0.1)", zIndex: 10 }}
-              >
-                💻 Full Stack Dev
-              </motion.div>
             </div>
           </motion.div>
         </div>
