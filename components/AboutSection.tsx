@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import ElectricBorder from "@/components/ElectricBorder";
 
@@ -11,10 +12,11 @@ const stats = [
 ];
 
 export default function AboutSection() {
+
   return (
     <section
       id="about"
-      className="relative z-10 py-28 px-6 overflow-hidden"
+      className="relative py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
       <div
@@ -36,7 +38,7 @@ export default function AboutSection() {
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center gap-4 mb-10 lg:mb-16"
         >
@@ -63,7 +65,7 @@ export default function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.95 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
             className="flex justify-center order-1 md:order-2"
           >
@@ -115,8 +117,8 @@ export default function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
             className="space-y-5 order-2 md:order-1"
           >
             <p
