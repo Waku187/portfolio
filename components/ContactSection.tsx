@@ -29,10 +29,13 @@ const contactLinks = [
 ];
 
 export default function ContactSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.05, margin: "0px" });
 
   return (
     <section
       id="contact"
+      ref={ref}
       className="relative py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
@@ -51,8 +54,7 @@ export default function ContactSection() {
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-16"
         >
@@ -78,8 +80,7 @@ export default function ContactSection() {
           {/* CTA Text */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.15 }}
             className="space-y-6"
           >
@@ -115,8 +116,7 @@ export default function ContactSection() {
           {/* Contact Links */}
           <motion.div
             initial={{ opacity: 0, x: 32 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.25 }}
             className="space-y-4"
           >
@@ -127,8 +127,7 @@ export default function ContactSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.35 + i * 0.1 }}
                 className="flex items-center gap-4 p-5 rounded-2xl glass hover:-translate-y-0.5 transition-all duration-300 group"
               >

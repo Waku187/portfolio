@@ -12,10 +12,13 @@ const stats = [
 ];
 
 export default function AboutSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.05, margin: "0px" });
 
   return (
     <section
       id="about"
+      ref={ref}
       className="relative py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
@@ -37,8 +40,7 @@ export default function AboutSection() {
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center gap-4 mb-10 lg:mb-16"
         >
@@ -64,8 +66,7 @@ export default function AboutSection() {
           {/* ── Photo ── */}
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
             className="flex justify-center order-1 md:order-2"
           >
@@ -116,8 +117,7 @@ export default function AboutSection() {
           {/* ── Text ── */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.15 }}
             className="space-y-5 order-2 md:order-1"
           >

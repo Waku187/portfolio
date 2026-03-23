@@ -43,6 +43,7 @@ function SpotlightCard({
 }) {
   const spotRef = useRef<HTMLDivElement>(null);
   const revealRef = useRef(null);
+  const isInView = useInView(revealRef, { once: true, amount: 0.05, margin: "0px" });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!spotRef.current) return;
@@ -61,8 +62,7 @@ function SpotlightCard({
     <motion.div
       ref={revealRef}
       initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay: index * 0.14, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* Gradient border wrapper */}
@@ -145,10 +145,13 @@ function SpotlightCard({
 }
 
 export default function ProjectsSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.05, margin: "0px" });
 
   return (
     <section
       id="projects"
+      ref={ref}
       className="relative py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
@@ -167,8 +170,7 @@ export default function ProjectsSection() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-3"
         >
@@ -191,8 +193,7 @@ export default function ProjectsSection() {
         </motion.div>
         <motion.p
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.15 }}
           className="text-sm mb-14 ml-10"
           style={{ color: "rgba(100,116,139,1)" }}
