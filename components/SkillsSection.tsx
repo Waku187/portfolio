@@ -58,7 +58,7 @@ export default function SkillsSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-16"
         >
@@ -87,7 +87,7 @@ export default function SkillsSection() {
               key={group.category}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={{ once: true, margin: "0px 0px 100px 0px" }}
               transition={{ duration: 0.55, delay: gi * 0.1 }}
               className="glass rounded-2xl p-6 hover:-translate-y-1.5 transition-all duration-300 group"
               style={{
@@ -124,7 +124,7 @@ export default function SkillsSection() {
                     key={skill}
                     initial={{ opacity: 0, scale: 0.75 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, amount: 0.1 }}
+                    viewport={{ once: true, margin: "0px 0px 100px 0px" }}
                     transition={{
                       duration: 0.3,
                       delay: gi * 0.1 + si * 0.04 + 0.1,

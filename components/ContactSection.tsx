@@ -52,7 +52,7 @@ export default function ContactSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-16"
         >
@@ -79,7 +79,7 @@ export default function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
             transition={{ duration: 0.65, delay: 0.15 }}
             className="space-y-6"
           >
@@ -116,7 +116,7 @@ export default function ContactSection() {
           <motion.div
             initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, margin: "0px 0px 100px 0px" }}
             transition={{ duration: 0.65, delay: 0.25 }}
             className="space-y-4"
           >
@@ -128,7 +128,7 @@ export default function ContactSection() {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
+                viewport={{ once: true, margin: "0px 0px 100px 0px" }}
                 transition={{ duration: 0.5, delay: 0.35 + i * 0.1 }}
                 className="flex items-center gap-4 p-5 rounded-2xl glass hover:-translate-y-0.5 transition-all duration-300 group"
               >

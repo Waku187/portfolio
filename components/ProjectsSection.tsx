@@ -62,7 +62,7 @@ function SpotlightCard({
       ref={revealRef}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
+      viewport={{ once: true, margin: "0px 0px 100px 0px" }}
       transition={{ duration: 0.65, delay: index * 0.14, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* Gradient border wrapper */}
@@ -168,7 +168,7 @@ export default function ProjectsSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
           transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-3"
         >
@@ -192,7 +192,7 @@ export default function ProjectsSection() {
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
           transition={{ duration: 0.6, delay: 0.15 }}
           className="text-sm mb-14 ml-10"
           style={{ color: "rgba(100,116,139,1)" }}
