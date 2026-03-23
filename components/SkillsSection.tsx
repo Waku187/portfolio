@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const skillGroups = [
   {
@@ -35,14 +34,10 @@ const skillGroups = [
 ];
 
 export default function SkillsSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
   return (
     <section
       id="skills"
-      ref={ref}
-      className="relative py-28 px-6 overflow-hidden"
+      className="relative z-10 py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -50,8 +45,8 @@ export default function SkillsSection() {
           className="absolute bottom-0 right-0 w-3/5 h-3/5 rounded-full"
           style={{
             background:
-              "radial-gradient(ellipse, rgba(6,182,212,0.07) 0%, transparent 70%)",
-            filter: "blur(70px)",
+              "radial-gradient(ellipse, rgba(124,58,237,0.06) 0%, transparent 70%)",
+            filter: "blur(90px)",
           }}
         />
       </div>
@@ -59,19 +54,20 @@ export default function SkillsSection() {
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center gap-4 mb-16"
         >
           <span
             className="font-mono text-sm"
             style={{ color: "rgba(139,92,246,1)" }}
           >
-            02.
+            03.
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white">
-            Skills &amp; Technologies
+            Skills & Toolbox
           </h2>
           <div
             className="flex-1 h-px"
@@ -82,64 +78,37 @@ export default function SkillsSection() {
           />
         </motion.div>
 
-        {/* Grid of skill cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {skillGroups.map((group, gi) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {skillGroups.map((group, idx) => (
             <motion.div
               key={group.category}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: gi * 0.1 }}
-              className="glass rounded-2xl p-6 hover:-translate-y-1.5 transition-all duration-300 group"
-              style={{
-                borderColor: "rgba(255,255,255,0.08)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = `${group.dot}50`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(255,255,255,0.08)";
-              }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              className="glass p-8 rounded-3xl border group hover:bg-white/5 transition-colors duration-300"
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
             >
-              {/* Category header */}
-              <div className="flex items-center gap-2.5 mb-5">
+              <div className="flex items-center gap-3 mb-6">
                 <div
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{
-                    backgroundColor: group.dot,
-                    boxShadow: `0 0 10px ${group.dot}90`,
-                  }}
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: group.dot }}
                 />
-                <h3
-                  className="font-semibold text-sm text-white tracking-wide"
-                >
+                <h3 className="text-lg font-bold text-white tracking-tight uppercase">
                   {group.category}
                 </h3>
               </div>
-
-              {/* Skill chips */}
-              <div className="flex flex-wrap gap-2">
-                {group.skills.map((skill, si) => (
-                  <motion.span
+              <ul className="space-y-3">
+                {group.skills.map((skill) => (
+                  <li
                     key={skill}
-                    initial={{ opacity: 0, scale: 0.75 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{
-                      duration: 0.3,
-                      delay: gi * 0.1 + si * 0.04 + 0.3,
-                    }}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium"
-                    style={{
-                      color: group.dot,
-                      backgroundColor: `${group.dot}14`,
-                      border: `1px solid ${group.dot}28`,
-                    }}
+                    className="text-slate-400 text-sm font-medium flex items-center gap-2 group-hover:text-slate-200 transition-colors"
                   >
+                    <div className="w-1 h-1 rounded-full bg-white/10" />
                     {skill}
-                  </motion.span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </motion.div>
           ))}
         </div>

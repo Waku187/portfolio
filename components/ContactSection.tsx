@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Mail, Github, Linkedin, ArrowRight } from "lucide-react";
 
 const contactLinks = [
@@ -29,14 +28,10 @@ const contactLinks = [
 ];
 
 export default function ContactSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
   return (
     <section
       id="contact"
-      ref={ref}
-      className="relative py-28 px-6 overflow-hidden"
+      className="relative z-10 py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -53,9 +48,10 @@ export default function ContactSection() {
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center gap-4 mb-16"
         >
           <span
@@ -80,8 +76,9 @@ export default function ContactSection() {
           {/* CTA Text */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
             className="space-y-6"
           >
             <h3
@@ -98,74 +95,58 @@ export default function ContactSection() {
               just a friendly chat about tech. Whether you have a project in mind
               or want to connect — feel free to reach out!
             </p>
-            <a
+
+            <motion.a
               href="mailto:homelanderthard@gmail.com"
-              className="inline-flex items-center gap-3 px-7 py-4 rounded-full text-white font-semibold text-base transition-all duration-300 hover:scale-105 hover:opacity-90 group glow-sm"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-white font-bold text-sm transition-all duration-300"
               style={{
-                background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
+                boxShadow: "0 10px 30px -10px rgba(124,58,237,0.5)",
               }}
             >
-              Say Hello
-              <ArrowRight
-                size={18}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </a>
+              Send a Message
+              <ArrowRight size={16} />
+            </motion.a>
           </motion.div>
 
           {/* Contact Links */}
-          <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.65, delay: 0.25 }}
-            className="space-y-4"
-          >
-            {contactLinks.map((link, i) => (
+          <div className="grid gap-4">
+            {contactLinks.map((link, idx) => (
               <motion.a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.35 + i * 0.1 }}
-                className="flex items-center gap-4 p-5 rounded-2xl glass hover:-translate-y-0.5 transition-all duration-300 group"
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 + 0.3 }}
+                className="group flex items-center justify-between p-6 rounded-2xl glass border border-white/5 hover:border-white/10 transition-all duration-300"
               >
-                {/* Icon bubble */}
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
-                  style={{
-                    backgroundColor: `${link.accent}14`,
-                    border: `1px solid ${link.accent}30`,
-                  }}
-                >
-                  <link.icon size={18} style={{ color: link.accent }} />
-                </div>
-
-                {/* Text */}
-                <div className="min-w-0">
+                <div className="flex items-center gap-5">
                   <div
-                    className="text-xs font-medium mb-0.5 uppercase tracking-wide"
-                    style={{ color: "rgba(71,85,105,1)" }}
+                    className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform duration-300"
+                    style={{ color: link.accent }}
                   >
-                    {link.label}
+                    <link.icon size={22} />
                   </div>
-                  <div
-                    className="text-sm font-medium transition-colors duration-200 group-hover:text-white truncate"
-                    style={{ color: "rgba(203,213,225,1)" }}
-                  >
-                    {link.value}
+                  <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">
+                      {link.label}
+                    </div>
+                    <div className="text-base font-semibold text-slate-200">
+                      {link.value}
+                    </div>
                   </div>
                 </div>
-
-                <ArrowRight
-                  size={14}
-                  className="ml-auto flex-shrink-0 opacity-30 group-hover:opacity-80 group-hover:translate-x-1 transition-all duration-200"
-                  style={{ color: "rgba(203,213,225,1)" }}
-                />
+                <div className="text-slate-600 group-hover:text-white group-hover:translate-x-1 transition-all">
+                  <ArrowRight size={20} />
+                </div>
               </motion.a>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

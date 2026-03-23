@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
 const projects = [
@@ -42,146 +42,118 @@ function SpotlightCard({
   index: number;
 }) {
   const spotRef = useRef<HTMLDivElement>(null);
-  const revealRef = useRef(null);
-  const isInView = useInView(revealRef, { once: true, margin: "-40px" });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!spotRef.current) return;
     const rect = spotRef.current.getBoundingClientRect();
-    spotRef.current.style.setProperty(
-      "--sx",
-      `${e.clientX - rect.left}px`
-    );
-    spotRef.current.style.setProperty(
-      "--sy",
-      `${e.clientY - rect.top}px`
-    );
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spotRef.current.style.setProperty("--x", `${x}px`);
+    spotRef.current.style.setProperty("--y", `${y}px`);
   };
 
   return (
     <motion.div
-      ref={revealRef}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay: index * 0.14, ease: [0.25, 0.46, 0.45, 0.94] }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: [0.23, 1, 0.32, 1] }}
+      onMouseMove={handleMouseMove}
+      className="group relative h-full"
     >
-      {/* Gradient border wrapper */}
       <div
         ref={spotRef}
-        onMouseMove={handleMouseMove}
-        className="h-full rounded-2xl p-px group hover:-translate-y-2 transition-transform duration-300 cursor-default"
+        className="relative h-full glass rounded-3xl p-8 lg:p-10 overflow-hidden border transition-colors duration-500 hover:bg-white/5"
         style={{
-          background: `linear-gradient(135deg, ${project.accent}50, rgba(255,255,255,0.04) 60%, ${project.accent}20)`,
+          borderColor: "rgba(255,255,255,0.08)",
+          background: `radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), ${project.accent}15, transparent 40%)`,
         }}
       >
-        <div
-          className="h-full rounded-[inherit] p-7 relative overflow-hidden flex flex-col"
-          style={{ background: "#030014" }}
-        >
-          {/* Spotlight highlight */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: `radial-gradient(380px circle at var(--sx, 50%) var(--sy, 50%), ${project.accent}14 0%, transparent 55%)`,
-            }}
-          />
-
-          {/* Big number */}
+        {/* Project Number & Header */}
+        <div className="flex justify-between items-start mb-8">
           <span
-            className="text-7xl font-bold leading-none select-none mb-3"
-            style={{ color: `${project.accent}18` }}
+            className="text-5xl font-black opacity-10 font-mono tracking-tighter"
+            style={{ color: project.accent }}
           >
             {project.num}
           </span>
-
-          {/* Title */}
-          <h3 className="text-white font-bold text-xl mb-3 group-hover:text-gradient transition-all duration-300">
-            {project.title}
-          </h3>
-
-          {/* Description */}
-          <p
-            className="text-sm leading-relaxed mb-6 flex-1"
-            style={{ color: "rgba(100,116,139,1)" }}
-          >
-            {project.description}
-          </p>
-
-          {/* Tech chips */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.tech.map((t) => (
-              <span
-                key={t}
-                className="px-2.5 py-1 rounded-md text-xs font-medium"
-                style={{
-                  color: project.accent,
-                  backgroundColor: `${project.accent}12`,
-                  border: `1px solid ${project.accent}28`,
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          {/* Link */}
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium transition-all duration-200 hover:gap-2.5 group/link"
+            className="p-3 rounded-full glass border border-white/10 hover:scale-110 transition-transform duration-300"
             style={{ color: project.accent }}
           >
-            <ExternalLink
-              size={14}
-              className="group-hover/link:scale-110 transition-transform"
-            />
-            Live Demo
+            <ExternalLink size={18} />
           </a>
         </div>
+
+        {/* Content */}
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white group-hover:text-gradient transition-colors duration-300">
+            {project.title}
+          </h3>
+          <p className="text-slate-400 leading-relaxed text-sm lg:text-base">
+            {project.description}
+          </p>
+        </div>
+
+        {/* Tech Stack Tags */}
+        <div className="mt-8 flex flex-wrap gap-2">
+          {project.tech.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/5 border border-white/5 text-slate-300"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* Decorative corner glow */}
+        <div
+          className="absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-20 transition-opacity duration-500 group-hover:opacity-40"
+          style={{ background: project.accent }}
+        />
       </div>
     </motion.div>
   );
 }
 
 export default function ProjectsSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
   return (
     <section
       id="projects"
-      ref={ref}
-      className="relative py-28 px-6 overflow-hidden"
+      className="relative z-10 py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-3/5 rounded-full"
+          className="absolute top-1/4 right-0 w-1/2 h-1/2 rounded-full"
           style={{
             background:
-              "radial-gradient(ellipse, rgba(124,58,237,0.05) 0%, transparent 70%)",
+              "radial-gradient(ellipse, rgba(124,58,237,0.06) 0%, transparent 70%)",
             filter: "blur(90px)",
           }}
         />
       </div>
 
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-3"
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+          className="flex items-center gap-4 mb-20"
         >
           <span
             className="font-mono text-sm"
             style={{ color: "rgba(139,92,246,1)" }}
           >
-            03.
+            02.
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white">
-            Projects
+            Selected Works
           </h2>
           <div
             className="flex-1 h-px"
@@ -191,20 +163,10 @@ export default function ProjectsSection() {
             }}
           />
         </motion.div>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="text-sm mb-14 ml-10"
-          style={{ color: "rgba(100,116,139,1)" }}
-        >
-          A selection of things I&apos;ve built
-        </motion.p>
 
-        {/* Cards grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p, i) => (
-            <SpotlightCard key={p.title} project={p} index={i} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, idx) => (
+            <SpotlightCard key={project.title} project={project} index={idx} />
           ))}
         </div>
       </div>
