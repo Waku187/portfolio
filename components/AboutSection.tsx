@@ -13,12 +13,11 @@ const stats = [
 
 export default function AboutSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.05, margin: "0px" });
+  const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
 
   return (
     <section
       id="about"
-      ref={ref}
       className="relative py-28 px-6 overflow-hidden"
     >
       {/* Background accent */}
@@ -36,7 +35,7 @@ export default function AboutSection() {
         />
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      <div ref={ref} className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
