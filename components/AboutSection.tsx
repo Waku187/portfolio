@@ -89,7 +89,7 @@ export default function AboutSection() {
               >
                 <div className="relative w-64 h-72 sm:w-80 sm:h-96 rounded-2xl overflow-hidden">
                   <Image
-                    src="/wall1.png"
+                    src="/wall1.jpg"
                     alt="Wakung'uma Nyambe III"
                     fill
                     className="object-cover"
