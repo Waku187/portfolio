@@ -29,7 +29,7 @@ const projects = [
     description:
       "A clean, modern admin dashboard featuring intuitive UI for monitoring key metrics and navigating complex data at a glance.",
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-    liveUrl: "https://next-dash101.vercel.app/login",
+    liveUrl: "https://next-dash101.vercel.app/",
     accent: "#a855f7",
   },
 ];
