@@ -30,7 +30,7 @@ const skillGroups = [
   {
     category: "Tools & DevOps",
     dot: "#10b981",
-    skills: ["Git", "GitHub", "Vercel", "Docker", "Linux", "Figma"],
+    skills: ["Git", "GitHub", "Vercel", "Docker", "Linux", "Proxmox", "Figma"],
   },
 ];
 
