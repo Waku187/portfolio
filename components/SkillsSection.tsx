@@ -20,7 +20,7 @@ const skillGroups = [
   {
     category: "Backend",
     dot: "#06b6d4",
-    skills: ["Node.js", "Spring Boot", "Express", "REST APIs", "NextAuth", "Prisma"],
+    skills: ["Node.js", "Spring Boot", "Express", "REST APIs", "NextAuth", "Prisma", "Drizzle"],
   },
   {
     category: "Database & Mobile",
