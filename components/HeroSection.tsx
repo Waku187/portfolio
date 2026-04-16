@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, ExternalLink } from "lucide-react";
-import BlurText from "@/components/BlurText";
 import RotatingText from "@/components/RotatingText";
 
 /* ───────────────────────────────────────────────────────────
@@ -290,7 +289,7 @@ export default function HeroSection() {
       ref={containerRef}
       id="hero"
       onMouseMove={handleMouseMove}
-      className="relative min-h-[100dvh] flex items-center overflow-hidden"
+      className="relative min-h-dvh flex items-center overflow-hidden"
     >
       {/* ══ Background layer ══ */}
       <div
@@ -313,7 +312,7 @@ export default function HeroSection() {
       {/* ══ Main content — Luxury Split ══ */}
       <motion.div 
         style={{ opacity, y, scale }}
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 min-h-[100dvh] flex flex-col lg:grid lg:grid-cols-2 items-center lg:justify-center justify-center gap-12 lg:gap-0 pt-16 lg:pt-0"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 min-h-dvh flex flex-col lg:grid lg:grid-cols-2 items-center lg:justify-center justify-center gap-12 lg:gap-0 pt-16 lg:pt-0"
       >
         
         {/* ── LEFT COLUMN (Desktop) / TOP & BOTTOM (Mobile) ── */}
@@ -380,17 +379,12 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
           className="flex items-center justify-center order-2 lg:order-2 relative z-10 w-full py-2 lg:py-0"
         >
-          <div className="relative group scale-[0.6] sm:scale-85 lg:scale-100 lg:h-auto h-[260px] flex items-center justify-center">
+          <div className="relative group scale-[0.6] sm:scale-85 lg:scale-100 lg:h-auto h-65 flex items-center justify-center">
             <div className="absolute -inset-10 lg:-inset-20 bg-violet-600/10 rounded-full blur-[60px] lg:blur-[100px] pointer-events-none group-hover:bg-violet-600/15 transition-colors duration-700" />
             <OrbitalSystem />
           </div>
         </motion.div>
 
-        {/* ── ZONE 3 Mobile: Buttons & Socials (Removed as per user request, kept empty for spacing or hidden) ── */}
-        <div className="hidden lg:hidden flex-col items-center w-full gap-6 order-3 pb-6 relative z-20 h-auto">
-          <HeroCTAs />
-          <HeroSocials />
-        </div>
       </motion.div>
 
       {/* ── Scroll indicator ── */}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Outfit } from "next/font/google";
+import { Inter, Space_Grotesk, Manrope } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,8 +15,6 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
-
-import { Manrope } from "next/font/google";
 
 const manrope = Manrope({
   variable: "--font-manrope",

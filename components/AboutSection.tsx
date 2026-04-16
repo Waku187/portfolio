@@ -13,7 +13,7 @@ const stats = [
 
 export default function AboutSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
+  const isInView = useInView(ref, { once: true, amount: 0.01 });
 
   return (
     <section
